@@ -11,7 +11,7 @@ permissions:
 jobs:
   build:
     name: Build
-    uses: ./github/workflows/template-build.yml@main
+    uses: ./template-build.yml@main
     with:
       environment: development
       environment_short: dev
@@ -19,7 +19,7 @@ jobs:
 
   deploy:
     name: Deploy to Frontend
-    uses: ./github/workflows/template-deploy.yml@main
+    uses: ./template-deploy.yml@main
     with:
       environment: development
       environment_short: dev
