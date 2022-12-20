@@ -18,6 +18,7 @@ jobs:
 
   deploy:    
     uses: ./.github/workflows/template-deploy.yml
+    needs: build
     with:
       environment: development
       environment_short: dev
