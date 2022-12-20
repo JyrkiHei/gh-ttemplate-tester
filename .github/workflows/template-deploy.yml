@@ -12,20 +12,21 @@ on:
       artefact_name:
         required: true
         type: string
-    secrets:
-      azure_client_id:
-        required: true
-      azure_tenant_id:
-        required: true
-      azure_subscription_id:
-        required: true
+    #secrets:
+    #  azure_client_id:
+    #    required: true
+    #  azure_tenant_id:
+    #    required: true
+    #  azure_subscription_id:
+    #    required: true
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     # needs: build
-    # environment:
-    #   name: ${{ inputs.environment}}
+    environment:
+      name: ${{ inputs.environment}}
+      url: "https://testiurl.local"
 
     steps:
     - name: Download artifact from build job
