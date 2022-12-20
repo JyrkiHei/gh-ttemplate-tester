@@ -1,0 +1,56 @@
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      environment_short:
+        required: true
+        type: string
+      artefact_name:
+        required: true
+        type: string
+    secrets:
+      azure_client_id:
+        required: true
+      azure_tenant_id:
+        required: true
+      azure_subscription_id:
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    # needs: build
+    environment:
+      name: ${{ inputs.environment}}
+
+    steps:
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v3
+      with:
+        name: ${{ inputs.artefact_name }}
+
+    - name: Azure Login
+      id: azure-login
+      uses: Azure/login@v1.4.6
+      with:
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+    - name: Upload to blob storage
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+            az storage blob upload-batch --account-name staeuwbfssofrontend${{ inputs.environment_short}}  --auth-mode login -d '$web' -s .
+
+    - name: Purge Front Door CDN endpoint
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+           az afd endpoint purge -g rg-euw-bfsso-{{ inputs.environment_short}} --endpoint-name fde-euw-bfsso-{{ inputs.environment_short}} --content-paths '/*'
+
+    - name: logout
+      run: az logout
+      if: always()
