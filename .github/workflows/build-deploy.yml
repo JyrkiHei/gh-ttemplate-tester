@@ -1,4 +1,4 @@
-name: Build & Deploy
+name: Flow - Build & Deploy
 
 on:
   push:
@@ -11,20 +11,26 @@ permissions:
 jobs:
   build:
     name: Build
-    uses: ./.github/workflows/template/template-build.yml
-    with:
-      environment: development
-      environment_short: dev
-      artefact_name: frontend
+    environment: development
+    
+    - name: Build
+      uses: ./.github/workflows/template-build.yml
+      with:
+        environment: development
+        environment_short: dev
+        artefact_name: frontend
 
   deploy:
     name: Deploy to Frontend
-    uses: ./.github/workflows/template/template-deploy.yml
-    with:
-      environment: development
-      environment_short: dev
-      artefact_name: frontend
-    secrets:
-      azure_client_id: ${{ secrets.AZURE_CLIENT_ID }}
-      azure_tenant_id: ${{ secrets.AZURE_TENANT_ID }}
-      azure_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+    environment: development
+    
+    - name: Deploy
+      uses: ./.github/workflows/template-deploy.yml
+      with:
+        environment: development
+        environment_short: dev
+        artefact_name: frontend
+      secrets:
+        azure_client_id: ${{ secrets.AZURE_CLIENT_ID }}
+        azure_tenant_id: ${{ secrets.AZURE_TENANT_ID }}
+        azure_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
