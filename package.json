@@ -1,20 +1,11 @@
 {
     "name": "tester",
     "version": "0.1.0",
-    "engines": {
-      "node": "18.12.1"
-    },
     "private": true,
     "dependencies": {
     },
     "scripts": {
-      "start": "react-scripts start",
-      "build": "react-scripts build",
-      "test": "react-scripts test",
-      "test:coverage": "cross-env CI=true npm test -- --env=jsdom --coverage",
-      "eject": "react-scripts eject",
-      "storybook": "start-storybook -p 6006 -s public",
-      "build-storybook": "build-storybook -s public"
+      "start": "echo 'jeppis'"
     },
     "devDependencies": {}
   }
