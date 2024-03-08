@@ -43,13 +43,13 @@ jobs:
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
     - name: Upload to blob storage
-      uses: azure/CLI@v1
+      uses: azure/CLI@v2
       with:
         inlineScript: |
             az storage blob upload-batch --account-name staeuwbfssofrontend${{ inputs.environment_short}}  --auth-mode login -d '$web' -s .
 
     - name: Purge Front Door CDN endpoint
-      uses: azure/CLI@v1
+      uses: azure/CLI@v2
       with:
         inlineScript: |
            az afd endpoint purge -g rg-euw-bfsso-{{ inputs.environment_short}} --endpoint-name fde-euw-bfsso-{{ inputs.environment_short}} --content-paths '/*'
